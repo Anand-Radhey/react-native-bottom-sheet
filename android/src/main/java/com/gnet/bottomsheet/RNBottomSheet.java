@@ -40,7 +40,7 @@ class RNBottomSheet extends ReactContextBaseJavaModule {
         ReadableArray optionArray = options.getArray("options");
         final Integer cancelButtonIndex = options.getInt("cancelButtonIndex");
 
-        BottomSheet.Builder builder = new BottomSheet.Builder(this.getCurrentActivity());
+        final BottomSheet.Builder builder = new BottomSheet.Builder(this.getCurrentActivity());
 
         // create options
         Integer size = optionArray.size();
@@ -59,7 +59,12 @@ class RNBottomSheet extends ReactContextBaseJavaModule {
             }
         });
 
-        builder.build().show();
+        UiThreadUtil.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                builder.build().show();
+            }
+        });
     }
 
     @ReactMethod
